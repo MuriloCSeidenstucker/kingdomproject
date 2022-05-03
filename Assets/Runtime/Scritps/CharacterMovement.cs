@@ -10,13 +10,22 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float acceleration = 100.0f;
 
     private Rigidbody2D rb;
-    private Vector2 currentVelocity;
+    private SpriteRenderer spriteRenderer;
 
+    private Vector2 currentVelocity;
     public Vector2 CurrentVelocity { get { return currentVelocity; } }
+
+    public bool IsFacingRight => spriteRenderer.flipX == false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+        FlipSprite();
     }
 
     private void FixedUpdate()
@@ -31,5 +40,21 @@ public class CharacterMovement : MonoBehaviour
         //TODO: Implementar também a corrida.
         float desiredHorizontalSpeed = movementInput.x * walkSpeed;
         currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, desiredHorizontalSpeed, acceleration * Time.deltaTime);
+    }
+
+    private void FlipSprite()
+    {
+        //TODO: Verificar se é possível reduzir os if.
+        if (spriteRenderer != null)
+        {
+            if (CurrentVelocity.x > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else if (CurrentVelocity.x < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+        }
     }
 }
