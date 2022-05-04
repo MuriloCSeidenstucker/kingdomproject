@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -12,12 +10,11 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float camTargetOffsetX = 2.0f;
     [SerializeField] private float idleTime = 3.0f;
     [SerializeField] private float speedToIdlePos = 2.0f;
-    [SerializeField] private float speedToReset = 8.0f;
+    [SerializeField] private float speedToCenterPos = 8.0f;
 
     private float timer = 0f;
-
+    private float centerPos = 0f;
     private bool keepLookingToRight;
-    private bool cameraIsInIdlePosition;
 
     private void Start()
     {
@@ -40,19 +37,23 @@ public class CameraFollow : MonoBehaviour
     {
         Vector3 targetPos = target.localPosition;
         float targetOffsetX = player.IsFacingRight ? camTargetOffsetX : -camTargetOffsetX;
+        bool playerRemainsWithIdleOrientation = PlayerRemainsWithIdleOrientation();
 
-        if (PlayerRemainsWithIdleOrientation() && !cameraIsInIdlePosition)
+        if (playerRemainsWithIdleOrientation && target.localPosition.x != targetOffsetX)
         {
             targetPos.x = Mathf.MoveTowards(targetPos.x, targetOffsetX, speedToIdlePos * Time.deltaTime);
-            cameraIsInIdlePosition = target.localPosition.x == targetOffsetX;
         }
-        else if (PlayerRemainsWithIdleOrientation() && cameraIsInIdlePosition)
+        else if (playerRemainsWithIdleOrientation)
         {
             targetPos.x = targetOffsetX;
         }
+        else if (!playerRemainsWithIdleOrientation && target.localPosition.x != centerPos)
+        {
+            targetPos.x = Mathf.MoveTowards(targetPos.x, centerPos, speedToCenterPos * Time.deltaTime);
+        }
         else
         {
-            targetPos.x = 0f;
+            targetPos.x = centerPos;
         }
 
         target.localPosition = targetPos;
@@ -64,7 +65,6 @@ public class CameraFollow : MonoBehaviour
         {
             timer = 0f;
             keepLookingToRight = player.IsFacingRight;
-            cameraIsInIdlePosition = false;
             return false;
         }
 

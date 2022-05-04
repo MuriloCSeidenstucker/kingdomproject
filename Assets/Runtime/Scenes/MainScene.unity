@@ -414,7 +414,7 @@ MonoBehaviour:
   camTargetOffsetX: 3
   idleTime: 3
   speedToIdlePos: 1
-  speedToReset: 8
+  speedToCenterPos: 8
 --- !u!1 &796460577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,7 +1462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
       propertyPath: walkSpeed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 497234558062525400, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
       propertyPath: m_Name
