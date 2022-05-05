@@ -37,6 +37,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Run"",
+                    ""type"": ""Value"",
+                    ""id"": ""34ed5188-ce26-4fc2-b0f8-e9ff478e748b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Action"",
                     ""type"": ""Button"",
                     ""id"": ""fcc4cb80-ca92-4af8-83a9-a2b13d1b4eab"",
@@ -112,15 +121,44 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d8ded34a-7cd8-4cb8-bb30-5313494743a9"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Keyboard & Mouse"",
+            ""bindingGroup"": ""Keyboard & Mouse"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // PlayerControls
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_Movement = m_PlayerControls.FindAction("Movement", throwIfNotFound: true);
+        m_PlayerControls_Run = m_PlayerControls.FindAction("Run", throwIfNotFound: true);
         m_PlayerControls_Action = m_PlayerControls.FindAction("Action", throwIfNotFound: true);
     }
 
@@ -182,12 +220,14 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerControls;
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
     private readonly InputAction m_PlayerControls_Movement;
+    private readonly InputAction m_PlayerControls_Run;
     private readonly InputAction m_PlayerControls_Action;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerControlsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerControls_Movement;
+        public InputAction @Run => m_Wrapper.m_PlayerControls_Run;
         public InputAction @Action => m_Wrapper.m_PlayerControls_Action;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
@@ -201,6 +241,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMovement;
+                @Run.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRun;
                 @Action.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAction;
                 @Action.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAction;
                 @Action.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAction;
@@ -211,6 +254,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
                 @Action.started += instance.OnAction;
                 @Action.performed += instance.OnAction;
                 @Action.canceled += instance.OnAction;
@@ -218,9 +264,19 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         }
     }
     public PlayerControlsActions @PlayerControls => new PlayerControlsActions(this);
+    private int m_KeyboardMouseSchemeIndex = -1;
+    public InputControlScheme KeyboardMouseScheme
+    {
+        get
+        {
+            if (m_KeyboardMouseSchemeIndex == -1) m_KeyboardMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard & Mouse");
+            return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
+        }
+    }
     public interface IPlayerControlsActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
     }
 }

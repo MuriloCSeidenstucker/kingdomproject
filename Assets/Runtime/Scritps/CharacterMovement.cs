@@ -4,7 +4,8 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 10.0f;
-    [SerializeField] private float acceleration = 100.0f;
+    [SerializeField] private float runSpeed = 10.0f;
+    [SerializeField] private float movementAcc = 100.0f;
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -32,11 +33,11 @@ public class CharacterMovement : MonoBehaviour
         rb.MovePosition(currentPosition);
     }
 
-    public void ProcessMovementInput(Vector2 movementInput)
+    public void ProcessMovementInput(in Vector2 movementInput, in bool isRunning)
     {
-        //TODO: Implementar também a corrida.
-        float desiredHorizontalSpeed = movementInput.x * walkSpeed;
-        currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, desiredHorizontalSpeed, acceleration * Time.deltaTime);
+        float desiredHorizontalSpeed = isRunning ? movementInput.x * runSpeed : movementInput.x * walkSpeed;
+
+        currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, desiredHorizontalSpeed, movementAcc * Time.deltaTime);
     }
 
     private void FlipSprite()

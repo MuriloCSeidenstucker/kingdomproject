@@ -6,6 +6,12 @@ public class PlayerController : MonoBehaviour
     private CharacterMovement charMovement;
     private PlayerInputActions inputActions;
 
+    private Vector2 movementInput;
+    public Vector2 MovementInput { get { return movementInput; } }
+
+    private bool isRunning;
+    public bool IsRunning { get { return isRunning; } }
+
     public bool IsFacingRight => charMovement.IsFacingRight;
 
     private void Awake()
@@ -18,7 +24,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Vector2 frameinput = inputActions.PlayerControls.Movement.ReadValue<Vector2>();
-        charMovement.ProcessMovementInput(frameinput);
+        movementInput = inputActions.PlayerControls.Movement.ReadValue<Vector2>();
+        isRunning = inputActions.PlayerControls.Run.ReadValue<float>() != 0f;
+        charMovement.ProcessMovementInput(in movementInput, in isRunning);
     }
 }
