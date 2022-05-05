@@ -13,6 +13,22 @@ public class CharacterMovement : MonoBehaviour
     private Vector2 currentVelocity;
     public Vector2 CurrentVelocity { get { return currentVelocity; } }
 
+    //TODO: Estudar maneiras de melhorar esta propriedade.
+    public float AnimVelocity
+    {
+        get
+        {
+            if (currentVelocity.magnitude != 0)
+            {
+                if (currentVelocity.magnitude <= walkSpeed)
+                    return 0.5f;
+                else
+                    return 1f;
+            }
+            return 0f;
+        }
+    }
+
     public bool IsFacingRight => spriteRenderer.flipX == false;
 
     private void Awake()

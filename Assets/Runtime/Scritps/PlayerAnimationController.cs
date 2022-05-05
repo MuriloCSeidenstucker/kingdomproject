@@ -5,20 +5,18 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     private Animator an;
-    private PlayerController player;
+    private CharacterMovement charMovement;
 
     private const string Velocity = "Velocity";
-    private const string IsRunning = "IsRunning";
 
     private void Awake()
     {
         an = GetComponent<Animator>();
-        player = GetComponentInParent<PlayerController>();
+        charMovement = GetComponentInParent<CharacterMovement>();
     }
 
     private void LateUpdate()
     {
-        an.SetFloat(Velocity, player.MovementInput.x);
-        an.SetBool(IsRunning, player.IsRunning);
+        an.SetFloat(Velocity, charMovement.AnimVelocity);
     }
 }
