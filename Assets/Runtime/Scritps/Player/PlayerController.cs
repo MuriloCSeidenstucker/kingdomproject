@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Vector2 movementInput = inputActions.PlayerControls.Movement.ReadValue<Vector2>();
-        bool isRunning = inputActions.PlayerControls.Run.ReadValue<float>() != 0f;
-        charMovement.ProcessMovementInput(in movementInput, in isRunning);
+        bool runInput = inputActions.PlayerControls.Run.ReadValue<float>() != 0f;
+        charMovement.ProcessMovementInput(in movementInput, in runInput);
     }
 }

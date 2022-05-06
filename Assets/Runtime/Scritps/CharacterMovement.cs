@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[DisallowMultipleComponent]
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 10.0f;
@@ -12,29 +13,18 @@ public class CharacterMovement : MonoBehaviour
 
     private Vector2 currentVelocity;
     public Vector2 CurrentVelocity { get { return currentVelocity; } }
-
-    //TODO: Estudar maneiras de melhorar esta propriedade.
-    public float AnimVelocity
-    {
-        get
-        {
-            if (currentVelocity.magnitude != 0)
-            {
-                if (currentVelocity.magnitude <= walkSpeed)
-                    return 0.5f;
-                else
-                    return 1f;
-            }
-            return 0f;
-        }
-    }
+    public float WalkSpeed { get { return walkSpeed; } }
 
     public bool IsFacingRight => spriteRenderer.flipX == false;
+
+    //TODO: Específico do player.
+    private PlayerStamina playerStamina;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        playerStamina = GetComponent<PlayerStamina>();
     }
 
     private void Update()
@@ -49,9 +39,14 @@ public class CharacterMovement : MonoBehaviour
         rb.MovePosition(currentPosition);
     }
 
-    public void ProcessMovementInput(in Vector2 movementInput, in bool isRunning)
+    public void ProcessMovementInput(in Vector2 movementInput, in bool runInput)
     {
-        float desiredHorizontalSpeed = isRunning ? movementInput.x * runSpeed : movementInput.x * walkSpeed;
+        float desiredHorizontalSpeed = 0f;
+
+        if (runInput && !playerStamina.WeAreFatigued)
+            desiredHorizontalSpeed = movementInput.x * runSpeed;
+        else
+            desiredHorizontalSpeed = movementInput.x * walkSpeed;
 
         currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, desiredHorizontalSpeed, movementAcc * Time.deltaTime);
     }
