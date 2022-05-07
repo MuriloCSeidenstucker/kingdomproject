@@ -18,6 +18,11 @@ public class CharacterMovement : MonoBehaviour
     public bool IsFacingRight => spriteRenderer.flipX == false;
 
     //TODO: Específico do player.
+    [Space]
+    [Header("Player specific parameters")]
+    [SerializeField] private Transform breathlessVFX;
+    [SerializeField] private Transform muzzle;
+    [SerializeField] private float muzzleOffsetX = 0.4f;
     private PlayerStamina playerStamina;
 
     private void Awake()
@@ -30,6 +35,7 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
         FlipSprite();
+        UpdateBreathlessVFXSettings();
     }
 
     private void FixedUpdate()
@@ -65,5 +71,35 @@ public class CharacterMovement : MonoBehaviour
                 spriteRenderer.flipX = true;
             }
         }
+    }
+
+    private void UpdateBreathlessVFXSettings()
+    {
+        if (!playerStamina.IsBreathless)
+        {
+            muzzle.gameObject.SetActive(false);
+            return;
+        }
+
+        muzzle.gameObject.SetActive(true);
+
+        float offsetX;
+        float newRotY;
+
+        if (IsFacingRight)
+        {
+            offsetX = muzzleOffsetX;
+            newRotY = 90.0f;
+        }
+        else
+        {
+            offsetX = -muzzleOffsetX;
+            newRotY = -90.0f;
+        }
+
+        Vector3 pos = muzzle.localPosition;
+        pos.x = offsetX;
+        muzzle.localPosition = pos;
+        breathlessVFX.localRotation = Quaternion.Euler(0f, newRotY, 0f);
     }
 }

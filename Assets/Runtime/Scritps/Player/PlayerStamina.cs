@@ -9,8 +9,6 @@ public class PlayerStamina : MonoBehaviour
     [Space]
     [SerializeField] private float staminaDrainValue = 5.0f;
     [Range(0.1f, 0.5f)] [SerializeField] private float fatiguePercent = 0.3f;
-    [Space]
-    [SerializeField] private Text staminaText;
 
     private CharacterMovement charMovement;
 
@@ -50,11 +48,6 @@ public class PlayerStamina : MonoBehaviour
             StaminaRegeneration();
         }
 
-    }
-
-    private void LateUpdate()
-    {
-        staminaText.text = $"{currentStamina}%";
     }
 
     private void StaminaDrain()
