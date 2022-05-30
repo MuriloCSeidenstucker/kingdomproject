@@ -4,46 +4,48 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [Range(0f, 1f)] [SerializeField] private float bounciness = 0.4f;
-    [Range(1, 4, order = 1)] [SerializeField] private int bouncinessLimit = 3;
+    [Range(0f, 1f)]
+    [SerializeField] private float _bounciness = 0.4f;
+    [Range(1, 4, order = 1)]
+    [SerializeField] private int _bouncinessLimit = 3;
 
-    private Vector2 gravity = new Vector2(0f, -9.81f);
-    private Vector2 ground = new Vector2(0f, -2.9f);
-    private Vector2 currentVelocity;
-    private int boucinessCount;
-    private bool movementEnded;
+    private Vector2 _gravity = new Vector2(0f, -9.81f);
+    private Vector2 _ground = new Vector2(0f, -2.9f);
+    private Vector2 _currentVelocity;
+    private int _boucinessCount;
+    private bool _movementEnded;
 
     private void FixedUpdate()
     {
-        if (!movementEnded)
+        if (!_movementEnded)
             ProcessNaturalMovement();
     }
 
     private void ProcessNaturalMovement()
     {
-        currentVelocity += gravity * Time.fixedDeltaTime;
+        _currentVelocity += _gravity * Time.fixedDeltaTime;
 
         Vector2 previousPosition = transform.position;
-        if (previousPosition.y <= ground.y)
+        if (previousPosition.y <= _ground.y)
         {
             ApllyBounciness(ref previousPosition);
         }
-        Vector2 currentPosition = previousPosition + currentVelocity * Time.fixedDeltaTime;
+        Vector2 currentPosition = previousPosition + _currentVelocity * Time.fixedDeltaTime;
 
-        if (boucinessCount != bouncinessLimit)
+        if (_boucinessCount != _bouncinessLimit)
             transform.position = currentPosition;
         else
-            movementEnded = true;
+            _movementEnded = true;
     }
 
     private Vector2 ApllyBounciness(ref Vector2 previousPos)
     {
-        boucinessCount++;
+        _boucinessCount++;
 
-        Vector2 velocityAfterCollision = currentVelocity * bounciness;
-        currentVelocity = -velocityAfterCollision;
+        Vector2 velocityAfterCollision = _currentVelocity * _bounciness;
+        _currentVelocity = -velocityAfterCollision;
 
-        previousPos.y = ground.y + 0.1f;
+        previousPos.y = _ground.y + 0.1f;
         return previousPos;
     }
 }

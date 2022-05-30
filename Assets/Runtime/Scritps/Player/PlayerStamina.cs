@@ -4,42 +4,43 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterMovement))]
 public class PlayerStamina : MonoBehaviour
 {
-    [SerializeField] private float staminaRegenValue = 5.0f;
-    [SerializeField] private float normalRegenSpeed = 2.0f;
+    [SerializeField] private float _staminaRegenValue = 5.0f;
+    [SerializeField] private float _normalRegenSpeed = 2.0f;
+
     [Space]
-    [SerializeField] private float staminaDrainValue = 5.0f;
-    [Range(0.1f, 0.5f)] [SerializeField] private float fatiguePercent = 0.3f;
+    [SerializeField] private float _staminaDrainValue = 5.0f;
+    [Range(0.1f, 0.5f)]
+    [SerializeField] private float _fatiguePercent = 0.3f;
 
-    private CharacterMovement charMovement;
+    private CharacterMovement _charMovement;
 
-    private float maxStamina = 100.0f;
-    private float currentStamina;
-    private bool weAreFatigued;
+    private float _maxStamina = 100.0f;
+    private float _currentStamina;
+    private bool _weAreFatigued;
 
-    private bool weAreSprinting => charMovement.CurrentVelocity.magnitude > charMovement.WalkSpeed;
-
-    public bool WeAreFatigued { get { return weAreFatigued; } }
+    public bool WeAreSprinting => _charMovement.CurrentVelocity.magnitude > _charMovement.WalkSpeed;
+    public bool WeAreFatigued { get { return _weAreFatigued; } }
 
     public bool IsBreathless
     {
         get
         {
-            if (weAreFatigued)
+            if (_weAreFatigued)
                 return true;
             else
-                return currentStamina <= maxStamina * fatiguePercent;
+                return _currentStamina <= _maxStamina * _fatiguePercent;
         }
     }
 
     private void Awake()
     {
-        charMovement = GetComponent<CharacterMovement>();
-        currentStamina = maxStamina;
+        _charMovement = GetComponent<CharacterMovement>();
+        _currentStamina = _maxStamina;
     }
 
     private void Update()
     {
-        if (weAreSprinting)
+        if (WeAreSprinting)
         {
             StaminaDrain();
         }
@@ -52,23 +53,23 @@ public class PlayerStamina : MonoBehaviour
 
     private void StaminaDrain()
     {
-        if (currentStamina <= 0f)
+        if (_currentStamina <= 0f)
         {
-            weAreFatigued = true;
+            _weAreFatigued = true;
             return;
         }
 
-        currentStamina -= staminaDrainValue * Time.deltaTime;
+        _currentStamina -= _staminaDrainValue * Time.deltaTime;
     }
 
     private void StaminaRegeneration()
     {
-        if (currentStamina > maxStamina - 0.01f)
+        if (_currentStamina > _maxStamina - 0.01f)
         {
-            weAreFatigued = false;
+            _weAreFatigued = false;
             return;
         }
 
-        currentStamina += staminaRegenValue * normalRegenSpeed * Time.deltaTime;
+        _currentStamina += _staminaRegenValue * _normalRegenSpeed * Time.deltaTime;
     }
 }
