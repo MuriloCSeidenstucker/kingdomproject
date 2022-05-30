@@ -4,40 +4,40 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    private Animator an;
-    private CharacterMovement charMovement;
+    private Animator _animator;
+    private CharacterMovement _charMovement;
 
-    private float playerCurrentVelocity => charMovement.CurrentVelocity.magnitude;
-    private float playerWalkSpeed => charMovement.WalkSpeed;
+    public float PlayerCurrentVelocity => _charMovement.CurrentVelocity.magnitude;
+    public float PlayerWalkSpeed => _charMovement.WalkSpeed;
 
-    private float PlayerVelocity
+    public float PlayerVelocity
     {
         get
         {
-            if (playerCurrentVelocity != 0f)
+            if (PlayerCurrentVelocity != 0f)
             {
-                if (playerCurrentVelocity <= playerWalkSpeed)
-                    return walkAnim;
+                if (PlayerCurrentVelocity <= PlayerWalkSpeed)
+                    return c_walkAnim;
                 else
-                    return runAnim;
+                    return c_runAnim;
             }
-            return idleAnim;
+            return c_idleAnim;
         }
     }
 
-    private const string Velocity = "Velocity";
-    private const float idleAnim = 0f;
-    private const float walkAnim = 0.5f;
-    private const float runAnim = 1.0f;
+    private const string c_velocity = "Velocity";
+    private const float c_idleAnim = 0f;
+    private const float c_walkAnim = 0.5f;
+    private const float c_runAnim = 1.0f;
 
     private void Awake()
     {
-        an = GetComponent<Animator>();
-        charMovement = GetComponentInParent<CharacterMovement>();
+        _animator = GetComponent<Animator>();
+        _charMovement = GetComponentInParent<CharacterMovement>();
     }
 
     private void LateUpdate()
     {
-        an.SetFloat(Velocity, PlayerVelocity);
+        _animator.SetFloat(c_velocity, PlayerVelocity);
     }
 }

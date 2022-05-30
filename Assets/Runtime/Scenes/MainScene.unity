@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &148983741 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 191490840, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+  m_PrefabInstance: {fileID: 497234558051481195}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &213704780
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,12 +414,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2558074732c1c2448a24284d5edb9374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 2042833726}
-  player: {fileID: 1296126679}
-  camTargetOffsetX: 3
-  idleTime: 3
-  speedToIdlePos: 1
-  speedToCenterPos: 8
+  _target: {fileID: 2042833726}
+  _player: {fileID: 1296126679}
+  _camTargetOffsetX: 3
+  _idleTime: 3
+  _speedToIdlePos: 1
+  _speedToCenterPos: 8
 --- !u!1 &796460577
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,6 +849,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &1884510086 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 920484728, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+  m_PrefabInstance: {fileID: 497234558051481195}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2041236618
 GameObject:
   m_ObjectHideFlags: 0
@@ -4228,6 +4238,22 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1184791179
       objectReference: {fileID: 0}
+    - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+      propertyPath: _muzzle
+      value: 
+      objectReference: {fileID: 148983741}
+    - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+      propertyPath: _runSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+      propertyPath: _walkSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+      propertyPath: _breathlessVFX
+      value: 
+      objectReference: {fileID: 1884510086}
     - target: {fileID: 497234558062525400, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
       propertyPath: m_Name
       value: Player

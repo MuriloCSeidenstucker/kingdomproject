@@ -4,32 +4,31 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] private float walkSpeed = 10.0f;
-    [SerializeField] private float runSpeed = 10.0f;
-    [SerializeField] private float movementAcc = 100.0f;
+    [SerializeField] private float _walkSpeed = 10.0f;
+    [SerializeField] private float _runSpeed = 10.0f;
+    [SerializeField] private float _movementAcc = 100.0f;
 
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
+    private Rigidbody2D _rigidbody;
+    private SpriteRenderer _spriteRenderer;
+    private Vector2 _currentVelocity;
 
-    private Vector2 currentVelocity;
-    public Vector2 CurrentVelocity { get { return currentVelocity; } }
-    public float WalkSpeed { get { return walkSpeed; } }
-
-    public bool IsFacingRight => spriteRenderer.flipX == false;
+    public Vector2 CurrentVelocity { get { return _currentVelocity; } }
+    public float WalkSpeed { get { return _walkSpeed; } }
+    public bool IsFacingRight => _spriteRenderer.flipX == false;
 
     //TODO: Específico do player.
     [Space]
     [Header("Player specific parameters")]
-    [SerializeField] private Transform breathlessVFX;
-    [SerializeField] private Transform muzzle;
-    [SerializeField] private float muzzleOffsetX = 0.4f;
-    private PlayerStamina playerStamina;
+    [SerializeField] private Transform _breathlessVFX;
+    [SerializeField] private Transform _muzzle;
+    [SerializeField] private float _muzzleOffsetX = 0.4f;
+    private PlayerStamina _playerStamina;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        playerStamina = GetComponent<PlayerStamina>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _playerStamina = GetComponent<PlayerStamina>();
     }
 
     private void Update()
@@ -40,66 +39,66 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 previousPosition = rb.position;
-        Vector2 currentPosition = previousPosition + currentVelocity * Time.fixedDeltaTime;
-        rb.MovePosition(currentPosition);
+        Vector2 previousPosition = _rigidbody.position;
+        Vector2 currentPosition = previousPosition + _currentVelocity * Time.fixedDeltaTime;
+        _rigidbody.MovePosition(currentPosition);
     }
 
     public void ProcessMovementInput(in Vector2 movementInput, in bool runInput)
     {
         float desiredHorizontalSpeed = 0f;
 
-        if (runInput && !playerStamina.WeAreFatigued)
-            desiredHorizontalSpeed = movementInput.x * runSpeed;
+        if (runInput && !_playerStamina.WeAreFatigued)
+            desiredHorizontalSpeed = movementInput.x * _runSpeed;
         else
-            desiredHorizontalSpeed = movementInput.x * walkSpeed;
+            desiredHorizontalSpeed = movementInput.x * _walkSpeed;
 
-        currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, desiredHorizontalSpeed, movementAcc * Time.deltaTime);
+        _currentVelocity.x = Mathf.MoveTowards(_currentVelocity.x, desiredHorizontalSpeed, _movementAcc * Time.deltaTime);
     }
 
     private void FlipSprite()
     {
         //TODO: Verificar se é possível reduzir os if.
-        if (spriteRenderer != null)
+        if (_spriteRenderer != null)
         {
             if (CurrentVelocity.x > 0)
             {
-                spriteRenderer.flipX = false;
+                _spriteRenderer.flipX = false;
             }
             else if (CurrentVelocity.x < 0)
             {
-                spriteRenderer.flipX = true;
+                _spriteRenderer.flipX = true;
             }
         }
     }
 
     private void UpdateBreathlessVFXSettings()
     {
-        if (!playerStamina.IsBreathless)
+        if (!_playerStamina.IsBreathless)
         {
-            muzzle.gameObject.SetActive(false);
+            _muzzle.gameObject.SetActive(false);
             return;
         }
 
-        muzzle.gameObject.SetActive(true);
+        _muzzle.gameObject.SetActive(true);
 
         float offsetX;
         float newRotY;
 
         if (IsFacingRight)
         {
-            offsetX = muzzleOffsetX;
+            offsetX = _muzzleOffsetX;
             newRotY = 90.0f;
         }
         else
         {
-            offsetX = -muzzleOffsetX;
+            offsetX = -_muzzleOffsetX;
             newRotY = -90.0f;
         }
 
-        Vector3 pos = muzzle.localPosition;
+        Vector3 pos = _muzzle.localPosition;
         pos.x = offsetX;
-        muzzle.localPosition = pos;
-        breathlessVFX.localRotation = Quaternion.Euler(0f, newRotY, 0f);
+        _muzzle.localPosition = pos;
+        _breathlessVFX.localRotation = Quaternion.Euler(0f, newRotY, 0f);
     }
 }
