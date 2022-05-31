@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAnimationController : MonoBehaviour
 {
     private Animator _animator;
-    private CharacterMovement _charMovement;
+    private PlayerMovement _playerMovement;
+    private ParticleSystem _breathlessVFX;
 
-    public float PlayerCurrentVelocity => _charMovement.CurrentVelocity.magnitude;
-    public float PlayerWalkSpeed => _charMovement.WalkSpeed;
+    public float PlayerCurrentVelocity => _playerMovement.CurrentVelocity.magnitude;
+    public float PlayerWalkSpeed => _playerMovement.WalkSpeed;
 
     public float PlayerVelocity
     {
@@ -32,12 +34,38 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _charMovement = GetComponentInParent<CharacterMovement>();
+        _animator = GetComponentInChildren<Animator>();
+        _playerMovement = GetComponentInParent<PlayerMovement>();
+        _breathlessVFX = GetComponentInChildren<ParticleSystem>();
+    }
+
+    private void Update()
+    {
+        UpdateBreathlessVFX();
     }
 
     private void LateUpdate()
     {
         _animator.SetFloat(c_velocity, PlayerVelocity);
+    }
+
+    private void UpdateBreathlessVFX()
+    {
+        float newRot = _playerMovement.IsFacingRight ? 90f : -90f;
+
+        if (_breathlessVFX.particleCount == 0)
+        {
+            _breathlessVFX.transform.localRotation = Quaternion.Euler(0f, newRot, 0f);
+        }
+
+        if (_playerMovement.IsBreathless && !_breathlessVFX.isPlaying)
+        {
+            _breathlessVFX.Play();
+        }
+
+        if (!_playerMovement.IsBreathless && _breathlessVFX.particleCount == 0)
+        {
+            _breathlessVFX.Stop();
+        }
     }
 }

@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &148983741 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 191490840, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-  m_PrefabInstance: {fileID: 497234558051481195}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &213704780
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,11 +844,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &1884510086 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 920484728, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-  m_PrefabInstance: {fileID: 497234558051481195}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2041236618
 GameObject:
   m_ObjectHideFlags: 0
@@ -4226,38 +4216,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1296126684, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-      propertyPath: _staminaDrainValue
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061432354, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-      propertyPath: m_SortingLayer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061432354, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061432354, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1184791179
-      objectReference: {fileID: 0}
-    - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-      propertyPath: _muzzle
-      value: 
-      objectReference: {fileID: 148983741}
-    - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-      propertyPath: _runSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-      propertyPath: _walkSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
-      propertyPath: _breathlessVFX
-      value: 
-      objectReference: {fileID: 1884510086}
     - target: {fileID: 497234558062525400, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4306,8 +4264,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
 --- !u!1001 &8003539668102213541
 PrefabInstance:
