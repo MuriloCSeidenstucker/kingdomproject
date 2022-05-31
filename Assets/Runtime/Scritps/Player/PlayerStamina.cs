@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(CharacterMovement))]
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerStamina : MonoBehaviour
 {
     [SerializeField] private float _staminaRegenValue = 5.0f;
@@ -9,7 +9,7 @@ public class PlayerStamina : MonoBehaviour
 
     [Space]
     [SerializeField] private float _staminaDrainValue = 5.0f;
-    [Range(0.1f, 0.5f)]
+    [Range(0.1f, 1f)]
     [SerializeField] private float _fatiguePercent = 0.3f;
 
     private CharacterMovement _charMovement;

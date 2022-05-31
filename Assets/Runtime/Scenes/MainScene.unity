@@ -4226,6 +4226,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1296126684, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+      propertyPath: _staminaDrainValue
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2061432354, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
       propertyPath: m_SortingLayer
       value: 3
@@ -4302,7 +4306,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 497234558062525395, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
 --- !u!1001 &8003539668102213541
 PrefabInstance:

@@ -1,16 +1,16 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterMovement))]
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerController : MonoBehaviour
 {
-    private CharacterMovement _charMovement;
+    private PlayerMovement _playerMovement;
     private PlayerInputActions _inputActions;
 
-    public bool IsFacingRight => _charMovement.IsFacingRight;
+    public bool IsFacingRight => _playerMovement.IsFacingRight;
 
     private void Awake()
     {
-        _charMovement = GetComponent<CharacterMovement>();
+        _playerMovement = GetComponent<PlayerMovement>();
 
         _inputActions = new PlayerInputActions();
         _inputActions.PlayerControls.Enable();
@@ -20,6 +20,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 movementInput = _inputActions.PlayerControls.Movement.ReadValue<Vector2>();
         bool runInput = _inputActions.PlayerControls.Run.ReadValue<float>() != 0f;
-        _charMovement.ProcessMovementInput(in movementInput, in runInput);
+        _playerMovement.ProcessMovementInput(in movementInput, in runInput);
     }
 }

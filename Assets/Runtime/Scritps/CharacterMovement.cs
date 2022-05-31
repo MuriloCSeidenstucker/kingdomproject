@@ -4,9 +4,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] private float _walkSpeed = 10.0f;
-    [SerializeField] private float _runSpeed = 10.0f;
-    [SerializeField] private float _movementAcc = 100.0f;
+    [SerializeField] protected float _walkSpeed = 2.0f;
+    [SerializeField] protected float _runSpeed = 4.0f;
+    [SerializeField] protected float _movementAcc = 100.0f;
 
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
@@ -16,25 +16,15 @@ public class CharacterMovement : MonoBehaviour
     public float WalkSpeed { get { return _walkSpeed; } }
     public bool IsFacingRight => _spriteRenderer.flipX == false;
 
-    //TODO: Específico do player.
-    [Space]
-    [Header("Player specific parameters")]
-    [SerializeField] private Transform _breathlessVFX;
-    [SerializeField] private Transform _muzzle;
-    [SerializeField] private float _muzzleOffsetX = 0.4f;
-    private PlayerStamina _playerStamina;
-
-    private void Awake()
+    protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _playerStamina = GetComponent<PlayerStamina>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         FlipSprite();
-        UpdateBreathlessVFXSettings();
     }
 
     private void FixedUpdate()
@@ -42,18 +32,6 @@ public class CharacterMovement : MonoBehaviour
         Vector2 previousPosition = _rigidbody.position;
         Vector2 currentPosition = previousPosition + _currentVelocity * Time.fixedDeltaTime;
         _rigidbody.MovePosition(currentPosition);
-    }
-
-    public void ProcessMovementInput(in Vector2 movementInput, in bool runInput)
-    {
-        float desiredHorizontalSpeed = 0f;
-
-        if (runInput && !_playerStamina.WeAreFatigued)
-            desiredHorizontalSpeed = movementInput.x * _runSpeed;
-        else
-            desiredHorizontalSpeed = movementInput.x * _walkSpeed;
-
-        _currentVelocity.x = Mathf.MoveTowards(_currentVelocity.x, desiredHorizontalSpeed, _movementAcc * Time.deltaTime);
     }
 
     private void FlipSprite()
@@ -72,33 +50,16 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private void UpdateBreathlessVFXSettings()
+    protected virtual float SpeedHandler(in bool runInput)
     {
-        if (!_playerStamina.IsBreathless)
-        {
-            _muzzle.gameObject.SetActive(false);
-            return;
-        }
+        return runInput ? _runSpeed : _walkSpeed;
+    }
 
-        _muzzle.gameObject.SetActive(true);
+    public void ProcessMovementInput(in Vector2 movementInput, in bool runInput)
+    {
+        float currentSpeed = SpeedHandler(in runInput);
+        float desiredHorizontalSpeed = movementInput.x * currentSpeed;
 
-        float offsetX;
-        float newRotY;
-
-        if (IsFacingRight)
-        {
-            offsetX = _muzzleOffsetX;
-            newRotY = 90.0f;
-        }
-        else
-        {
-            offsetX = -_muzzleOffsetX;
-            newRotY = -90.0f;
-        }
-
-        Vector3 pos = _muzzle.localPosition;
-        pos.x = offsetX;
-        _muzzle.localPosition = pos;
-        _breathlessVFX.localRotation = Quaternion.Euler(0f, newRotY, 0f);
+        _currentVelocity.x = Mathf.MoveTowards(_currentVelocity.x, desiredHorizontalSpeed, _movementAcc * Time.deltaTime);
     }
 }

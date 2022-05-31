@@ -5062,7 +5062,7 @@ GameObject:
   - component: {fileID: 497234558062525407}
   - component: {fileID: 497234558062525405}
   - component: {fileID: 497234558062525406}
-  - component: {fileID: 497234558062525395}
+  - component: {fileID: 347559460668202924}
   - component: {fileID: 497234558062525404}
   - component: {fileID: 1296126684}
   m_Layer: 0
@@ -5137,7 +5137,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.5}
   m_EdgeRadius: 0
---- !u!114 &497234558062525395
+--- !u!114 &347559460668202924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5146,15 +5146,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 497234558062525400}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e0c20b7d57cf99428048217772430a2, type: 3}
+  m_Script: {fileID: 11500000, guid: c4a6ff8fcd1309b41b68d7df969ef58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 5
-  movementAcc: 100
-  breathlessVFX: {fileID: 920484728}
-  muzzle: {fileID: 191490840}
-  muzzleOffsetX: 0.3
+  _walkSpeed: 2
+  _runSpeed: 4
+  _movementAcc: 100
+  _breathlessVFX: {fileID: 920484728}
+  _muzzle: {fileID: 191490840}
+  _muzzleOffsetX: 0.4
 --- !u!114 &497234558062525404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5179,10 +5179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a17d000527cb3e847a6856f55de8bd16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staminaRegenValue: 5
-  normalRegenSpeed: 2
-  staminaDrainValue: 5
-  fatiguePercent: 0.5
+  _staminaRegenValue: 5
+  _normalRegenSpeed: 2
+  _staminaDrainValue: 5
+  _fatiguePercent: 0.3
 --- !u!1 &497234558989819898
 GameObject:
   m_ObjectHideFlags: 0
