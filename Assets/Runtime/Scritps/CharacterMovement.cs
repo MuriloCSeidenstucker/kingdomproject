@@ -4,6 +4,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class CharacterMovement : MonoBehaviour
 {
+    [Header("Speed Settings")]
     [SerializeField] protected float _walkSpeed = 2.0f;
     [SerializeField] protected float _runSpeed = 4.0f;
     [SerializeField] protected float _movementAcc = 100.0f;
@@ -36,7 +37,6 @@ public class CharacterMovement : MonoBehaviour
 
     private void FlipSprite()
     {
-        //TODO: Verificar se é possível reduzir os if.
         if (_spriteRenderer != null)
         {
             if (CurrentVelocity.x > 0)

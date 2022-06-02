@@ -10,31 +10,21 @@ public class PlayerStamina : MonoBehaviour
     [Space]
     [SerializeField] private float _staminaDrainValue = 5.0f;
     [Range(0.1f, 1f)]
-    [SerializeField] private float _fatiguePercent = 0.3f;
+    [SerializeField] private float _breathlessPercent = 0.3f;
 
-    private CharacterMovement _charMovement;
-
+    private PlayerMovement _playerMovement;
     private float _maxStamina = 100.0f;
-    private float _currentStamina;
+    [SerializeField] private float _currentStamina;
     private bool _weAreFatigued;
 
-    public bool WeAreSprinting => _charMovement.CurrentVelocity.magnitude > _charMovement.WalkSpeed;
     public bool WeAreFatigued { get { return _weAreFatigued; } }
+    public bool IsBreathless { get { return _weAreFatigued || _currentStamina <= _maxStamina * _breathlessPercent; } }
 
-    public bool IsBreathless
-    {
-        get
-        {
-            if (_weAreFatigued)
-                return true;
-            else
-                return _currentStamina <= _maxStamina * _fatiguePercent;
-        }
-    }
+    public bool WeAreSprinting => _playerMovement.CurrentVelocity.magnitude > _playerMovement.WalkSpeed;
 
     private void Awake()
     {
-        _charMovement = GetComponent<CharacterMovement>();
+        _playerMovement = GetComponent<PlayerMovement>();
         _currentStamina = _maxStamina;
     }
 
@@ -48,7 +38,6 @@ public class PlayerStamina : MonoBehaviour
         {
             StaminaRegeneration();
         }
-
     }
 
     private void StaminaDrain()

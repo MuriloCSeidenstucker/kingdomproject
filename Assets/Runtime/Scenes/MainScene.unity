@@ -4216,6 +4216,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 347559460668202924, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+      propertyPath: _stoppedTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 347559460668202924, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+      propertyPath: _standStillTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 497234558062525400, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
       propertyPath: m_Name
       value: Player

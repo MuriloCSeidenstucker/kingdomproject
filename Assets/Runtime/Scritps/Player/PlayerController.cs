@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Vector2 movementInput = _inputActions.PlayerControls.Movement.ReadValue<Vector2>();
-        bool runInput = _inputActions.PlayerControls.Run.ReadValue<float>() != 0f;
+        bool runInput = _inputActions.PlayerControls.Run.IsPressed();
         _playerMovement.ProcessMovementInput(in movementInput, in runInput);
+        _playerMovement.StopPlayerMovement(_inputActions.PlayerControls.Run.WasPressedThisFrame());
     }
 }
