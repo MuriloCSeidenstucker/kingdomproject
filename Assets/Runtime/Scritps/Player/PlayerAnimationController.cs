@@ -28,7 +28,7 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
     private const string c_velocity = "Velocity";
-    private const string c_isStopped = "IsStopped";
+    private const string c_isPreventedRun = "IsPreventedRun";
     private const float c_idleAnim = 0f;
     private const float c_walkAnim = 0.5f;
     private const float c_runAnim = 1.0f;
@@ -50,7 +50,7 @@ public class PlayerAnimationController : MonoBehaviour
         _animator.SetFloat(c_velocity, PlayerVelocity);
 
         // It is not in sync with the gameplay.
-        _animator.SetBool(c_isStopped, _playerMovement.IsStopped);
+        _animator.SetBool(c_isPreventedRun, _playerMovement.IsPreventedRun);
     }
 
     private void UpdateBreathlessVFX()

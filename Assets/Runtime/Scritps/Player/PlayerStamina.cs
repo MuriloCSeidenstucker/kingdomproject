@@ -14,7 +14,7 @@ public class PlayerStamina : MonoBehaviour
 
     private PlayerMovement _playerMovement;
     private float _maxStamina = 100.0f;
-    [SerializeField] private float _currentStamina;
+    private float _currentStamina;
     private bool _weAreFatigued;
 
     public bool WeAreFatigued { get { return _weAreFatigued; } }

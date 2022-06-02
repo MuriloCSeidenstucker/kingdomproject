@@ -4,13 +4,13 @@ using UnityEngine;
 public class PlayerMovement : CharacterMovement
 {
     private PlayerStamina _playerStamina;
-    private bool _isStopped;
+    private bool _isPreventedRun;
 
     // It is not in sync with the animation.
-    private float _stoppedTime = 1.0f;
+    private float _timePreventedRun = 1.0f;
 
     public bool IsBreathless => _playerStamina.IsBreathless;
-    public bool IsStopped => _isStopped;
+    public bool IsPreventedRun => _isPreventedRun;
 
     protected override void Awake()
     {
@@ -21,27 +21,27 @@ public class PlayerMovement : CharacterMovement
 
     protected override float SpeedHandler(in bool runInput)
     {
-        if (!_playerStamina.WeAreFatigued) return base.SpeedHandler(runInput);
+        if (!_playerStamina.WeAreFatigued && !_isPreventedRun) return base.SpeedHandler(runInput);
 
-        if (_isStopped) return 0f;
+        if (_isPreventedRun) return 0f;
 
         return _walkSpeed;
     }
 
     private IEnumerator StopPlayerMovementCor()
     {
-        _isStopped = true;
+        _isPreventedRun = true;
 
-        yield return new WaitForSeconds(_stoppedTime);
+        yield return new WaitForSeconds(_timePreventedRun);
 
-        _isStopped = false;
+        _isPreventedRun = false;
     }
 
-    public void StopPlayerMovement(in bool triedRun)
+    public void PreventPlayerRun(in bool triedRunInput)
     {
-        if (!_playerStamina.WeAreFatigued || !triedRun) return;
+        if (!_playerStamina.WeAreFatigued || !triedRunInput) return;
 
-        if (!_isStopped)
+        if (!_isPreventedRun)
             StartCoroutine(StopPlayerMovementCor());
     }
 }

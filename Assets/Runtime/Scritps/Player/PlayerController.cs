@@ -20,7 +20,10 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 movementInput = _inputActions.PlayerControls.Movement.ReadValue<Vector2>();
         bool runInput = _inputActions.PlayerControls.Run.IsPressed();
+
         _playerMovement.ProcessMovementInput(in movementInput, in runInput);
-        _playerMovement.StopPlayerMovement(_inputActions.PlayerControls.Run.WasPressedThisFrame());
+
+        if (movementInput.x != 0f)
+            _playerMovement.PreventPlayerRun(_inputActions.PlayerControls.Run.WasPressedThisFrame());
     }
 }
