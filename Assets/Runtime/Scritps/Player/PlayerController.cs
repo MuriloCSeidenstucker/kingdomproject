@@ -1,11 +1,16 @@
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ICoinCollector
 {
+    [SerializeField] private CoinCollectorData _collectorData;
+    
     private PlayerMovement _playerMovement;
     private PlayerInputActions _inputActions;
-    private bool _collectedCoin;
+
+    [SerializeField] private TextMeshProUGUI _coinAmountText;
+    private int _coinInventory;
 
     public bool IsFacingRight => _playerMovement.IsFacingRight;
 
@@ -28,12 +33,22 @@ public class PlayerController : MonoBehaviour
             _playerMovement.PreventPlayerRun(_inputActions.PlayerControls.Run.WasPressedThisFrame());
     }
 
+    private void LateUpdate()
+    {
+        _coinAmountText.text = $"{_coinInventory}/50";
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         Coin coin = other.GetComponent<Coin>();
         if (coin != null && coin.NaturalMovementEnded)
         {
-            Debug.Log("Player tocou em uma moeda!");
+            _coinInventory++;
         }
+    }
+
+    public CoinCollectorData ReactToCoinCollision()
+    {
+        return _collectorData;
     }
 }

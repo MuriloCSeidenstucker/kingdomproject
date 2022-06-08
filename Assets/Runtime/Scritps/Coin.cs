@@ -94,12 +94,21 @@ public class Coin : MonoBehaviour
         }
     }
 
-    public void ActivateCoinBehavior(in float attractSpeed, in float scaleSpeed, in float finalScaleMultiplier, in Vector3 coinCollectorPos)
+    private void ActivateCoinBehavior(in CoinCollectorData data)
     {
-        _attractSpeed = attractSpeed;
-        _scaleSpeed = scaleSpeed;
-        _finalScaleMultiplier = finalScaleMultiplier;
-        _coinCollectorPos = coinCollectorPos;
+        _attractSpeed = data.AttractSpeed;
+        _scaleSpeed = data.ScaleSpeed;
+        _finalScaleMultiplier = data.FinalScaleMultiplier;
+        _coinCollectorPos = data.CoinCollector.position;
         _activatedBehavior = true;
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        ICoinCollector collector = other.GetComponent<ICoinCollector>();
+        if (collector != null && NaturalMovementEnded)
+        {
+            ActivateCoinBehavior(collector.ReactToCoinCollision());
+        }
     }
 }
