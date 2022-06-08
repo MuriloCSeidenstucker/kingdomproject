@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerMovement _playerMovement;
     private PlayerInputActions _inputActions;
+    private bool _collectedCoin;
 
     public bool IsFacingRight => _playerMovement.IsFacingRight;
 
@@ -25,5 +26,14 @@ public class PlayerController : MonoBehaviour
 
         if (movementInput.x != 0f)
             _playerMovement.PreventPlayerRun(_inputActions.PlayerControls.Run.WasPressedThisFrame());
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Coin coin = other.GetComponent<Coin>();
+        if (coin != null && coin.NaturalMovementEnded)
+        {
+            Debug.Log("Player tocou em uma moeda!");
+        }
     }
 }

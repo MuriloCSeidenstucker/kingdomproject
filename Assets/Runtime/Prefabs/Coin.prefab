@@ -209,5 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715b78e6f68f1e64e929e15243d6da77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounciness: 0.4
-  bouncinessLimit: 3
+  _animator: {fileID: 8003539666649840919}
+  _spriteRenderer: {fileID: 8003539666649840918}
+  _fullCoin: {fileID: -1225682702, guid: e1d51034b5c917b468011a9f48ccae9f, type: 3}
+  _bouncinessLimit: 3

@@ -1,23 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [Range(0f, 1f)]
-    [SerializeField] private float _bounciness = 0.4f;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Sprite _fullCoin;
+    [Space]
     [Range(1, 4, order = 1)]
     [SerializeField] private int _bouncinessLimit = 3;
 
     private Vector2 _gravity = new Vector2(0f, -9.81f);
     private Vector2 _ground = new Vector2(0f, -2.9f);
     private Vector2 _currentVelocity;
-    private int _boucinessCount;
-    private bool _movementEnded;
+    private Vector3 _coinCollectorPos;
+    private float _bounciness;
+    private float _attractSpeed;
+    private float _scaleSpeed;
+    private float _finalScaleMultiplier;
+    private bool _naturalMovementEnded;
+    private bool _activatedBehavior;
+
+    public bool NaturalMovementEnded { get { return _naturalMovementEnded; } }
+
+    private void Update()
+    {
+        PerformCoinBehavior();
+    }
 
     private void FixedUpdate()
     {
-        if (!_movementEnded)
+        if (!_naturalMovementEnded)
             ProcessNaturalMovement();
     }
 
@@ -32,20 +44,62 @@ public class Coin : MonoBehaviour
         }
         Vector2 currentPosition = previousPosition + _currentVelocity * Time.fixedDeltaTime;
 
-        if (_boucinessCount != _bouncinessLimit)
+        if (_bouncinessLimit > 0)
+        {
             transform.position = currentPosition;
+        }
         else
-            _movementEnded = true;
+        {
+            _currentVelocity = Vector2.zero;
+            _naturalMovementEnded = true;
+        }
     }
 
-    private Vector2 ApllyBounciness(ref Vector2 previousPos)
+    private void ApllyBounciness(ref Vector2 previousPos)
     {
-        _boucinessCount++;
+        _bouncinessLimit--;
+        _bounciness = Random.Range(0.1f, 0.6f);
 
         Vector2 velocityAfterCollision = _currentVelocity * _bounciness;
         _currentVelocity = -velocityAfterCollision;
 
+        // To prevent the coin from sticking to the ground.
+        // TODO: Check another way to handle it.
         previousPos.y = _ground.y + 0.1f;
-        return previousPos;
+    }
+
+    private void PerformCoinBehavior()
+    {
+        if (!_activatedBehavior) return;
+
+        _animator.enabled = false;
+        _spriteRenderer.sprite = _fullCoin;
+
+        Vector3 startPos = transform.position;
+        Vector3 endPos = _coinCollectorPos;
+        Vector3 startScale = transform.localScale;
+        Vector3 endScale = Vector3.one * _finalScaleMultiplier;
+
+        if (startPos != endPos)
+        {
+            transform.position = Vector3.MoveTowards(startPos, endPos, _attractSpeed * Time.deltaTime);
+        }
+        else if (startScale != endScale)
+        {
+            transform.localScale = Vector3.MoveTowards(startScale, endScale, _scaleSpeed * Time.deltaTime);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public void ActivateCoinBehavior(in float attractSpeed, in float scaleSpeed, in float finalScaleMultiplier, in Vector3 coinCollectorPos)
+    {
+        _attractSpeed = attractSpeed;
+        _scaleSpeed = scaleSpeed;
+        _finalScaleMultiplier = finalScaleMultiplier;
+        _coinCollectorPos = coinCollectorPos;
+        _activatedBehavior = true;
     }
 }
