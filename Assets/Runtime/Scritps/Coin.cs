@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : MonoBehaviour, IPooledObject
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -9,6 +9,7 @@ public class Coin : MonoBehaviour
     [Range(1, 4, order = 1)]
     [SerializeField] private int _bouncinessLimit = 3;
 
+    private GameHandler _gameHandler;
     private Vector2 _gravity = new Vector2(0f, -9.81f);
     private Vector2 _ground = new Vector2(0f, -2.9f);
     private Vector2 _currentVelocity;
@@ -21,6 +22,11 @@ public class Coin : MonoBehaviour
     private bool _activatedBehavior;
 
     public bool NaturalMovementEnded { get { return _naturalMovementEnded; } }
+
+    private void Awake()
+    {
+        _gameHandler = GetComponentInParent<GameHandler>();
+    }
 
     private void Update()
     {
@@ -90,7 +96,8 @@ public class Coin : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            // TODO
+            _gameHandler._coinPool.ReturnToPool(this);
         }
     }
 
@@ -110,5 +117,29 @@ public class Coin : MonoBehaviour
         {
             ActivateCoinBehavior(collector.ReactToCoinCollision());
         }
+    }
+
+    private void ResetCoinSetup()
+    {
+        _naturalMovementEnded = false;
+        _activatedBehavior = false;
+        _bouncinessLimit = 3;
+        transform.localScale = Vector3.one;
+        _animator.enabled = true;
+    }
+
+    public void OnInstantiated()
+    {
+        ResetCoinSetup();
+    }
+
+    public void OnEnabledFromPool()
+    {
+        ResetCoinSetup();
+    }
+
+    public void OnDisabledFromPool()
+    {
+        ResetCoinSetup();
     }
 }

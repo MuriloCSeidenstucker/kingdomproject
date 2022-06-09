@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerController : MonoBehaviour, ICoinCollector
 {
+    [SerializeField] private GameHandler _gameHandler;
     [SerializeField] private CoinCollectorData _collectorData;
     
     private PlayerMovement _playerMovement;
@@ -31,6 +32,15 @@ public class PlayerController : MonoBehaviour, ICoinCollector
 
         if (movementInput.x != 0f)
             _playerMovement.PreventPlayerRun(_inputActions.PlayerControls.Run.WasPressedThisFrame());
+
+        if (_inputActions.PlayerControls.Action.WasPressedThisFrame())
+        {
+            if (_coinInventory > 0)
+            {
+                _coinInventory--;
+                _gameHandler._coinPool.GetFromPool(_collectorData.CoinCollector.position, Quaternion.identity, _gameHandler.transform);
+            }
+        }
     }
 
     private void LateUpdate()
@@ -49,6 +59,7 @@ public class PlayerController : MonoBehaviour, ICoinCollector
 
     public CoinCollectorData ReactToCoinCollision()
     {
+        _coinInventory++;
         return _collectorData;
     }
 }
