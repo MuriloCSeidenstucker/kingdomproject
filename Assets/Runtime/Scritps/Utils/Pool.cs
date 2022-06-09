@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +9,7 @@ public interface IPooledObject
 }
 
 [System.Serializable]
-public class Pool<T> where  T : MonoBehaviour, IPooledObject
+public class Pool<T> where T : MonoBehaviour, IPooledObject
 {
     [SerializeField] private Transform _poolRoot;
     [SerializeField] private T _prefab;

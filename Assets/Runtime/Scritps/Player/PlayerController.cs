@@ -6,14 +6,19 @@ public class PlayerController : MonoBehaviour, ICoinCollector
 {
     [SerializeField] private GameHandler _gameHandler;
     [SerializeField] private CoinCollectorData _collectorData;
+    [SerializeField] private int _fullInventory = 50;
     
     private PlayerMovement _playerMovement;
     private PlayerInputActions _inputActions;
-
-    [SerializeField] private TextMeshProUGUI _coinAmountText;
     private int _coinInventory;
+    private int _excessInventory;
+
+    // TODO: Create class to handle UI.
+    [SerializeField] private TextMeshProUGUI _coinAmountText;
 
     public bool IsFacingRight => _playerMovement.IsFacingRight;
+
+    public int CoinInventory { get { return _coinInventory; } private set { _coinInventory = Mathf.Max(0, value); } }
 
     private void Awake()
     {
@@ -35,31 +40,41 @@ public class PlayerController : MonoBehaviour, ICoinCollector
 
         if (_inputActions.PlayerControls.Action.WasPressedThisFrame())
         {
-            if (_coinInventory > 0)
+            if (CoinInventory > 0)
             {
-                _coinInventory--;
-                _gameHandler._coinPool.GetFromPool(_collectorData.CoinCollector.position, Quaternion.identity, _gameHandler.transform);
+                CoinInventory--;
+                Coin coin = _gameHandler.GetFromCoinPool(_collectorData.CoinCollector.position, Quaternion.identity);
+                coin.ApllyVelocityAfterEjection();
             }
+        }
+
+        if (_excessInventory > 0)
+        {
+            _excessInventory--;
+            Coin coin = _gameHandler.GetFromCoinPool(_collectorData.CoinCollector.position, Quaternion.identity);
+            coin.ApllyVelocityAfterEjection();
         }
     }
 
     private void LateUpdate()
     {
-        _coinAmountText.text = $"{_coinInventory}/50";
+        _coinAmountText.text = $"{CoinInventory}/{_fullInventory}";
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void ReactToCollisionEnter()
     {
-        Coin coin = other.GetComponent<Coin>();
-        if (coin != null && coin.NaturalMovementEnded)
+        if (CoinInventory < _fullInventory)
         {
-            _coinInventory++;
+            CoinInventory++;
+        }
+        else
+        {
+            _excessInventory++;
         }
     }
 
-    public CoinCollectorData ReactToCoinCollision()
+    public CoinCollectorData ReactToCollisionStay()
     {
-        _coinInventory++;
         return _collectorData;
     }
 }

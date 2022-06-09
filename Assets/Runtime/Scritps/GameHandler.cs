@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
-    public Pool<Coin> _coinPool;
+    [SerializeField] private Transform _coinPoolParent;
+    [SerializeField] private Pool<Coin> _coinPool;
 
     private void Awake()
     {
@@ -16,8 +15,18 @@ public class GameHandler : MonoBehaviour
         Vector3 pos = new Vector3(2.0f, 0.5f, 0f);
         for (int i = 0; i < 10; i++)
         {
-            _coinPool.GetFromPool(pos, Quaternion.identity, transform);
+            _coinPool.GetFromPool(pos, Quaternion.identity, _coinPoolParent);
             pos.x += 0.5f;
         }
+    }
+
+    public Coin GetFromCoinPool(Vector3 position, Quaternion rotation)
+    {
+        return _coinPool.GetFromPool(position, rotation, _coinPoolParent);
+    }
+
+    public void ReturnToCoinPool(Coin coin)
+    {
+        _coinPool.ReturnToPool(coin);
     }
 }

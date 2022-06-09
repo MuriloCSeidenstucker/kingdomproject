@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public interface ICoinCollector
 {
-    public CoinCollectorData ReactToCoinCollision();
+    public void ReactToCollisionEnter();
+    public CoinCollectorData ReactToCollisionStay();
 }
