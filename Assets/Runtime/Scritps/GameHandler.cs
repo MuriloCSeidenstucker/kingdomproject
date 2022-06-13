@@ -13,8 +13,8 @@ public class GameHandler : MonoBehaviour
 
     private void Start()
     {
-        Vector3 pos = new Vector3(2.0f, 0.5f, 0f);
-        for (int i = 0; i < 10; i++)
+        Vector3 pos = new Vector3(1.0f, 0.5f, 0f);
+        for (int i = 0; i < 4; i++)
         {
             _coinPool.GetFromPool(pos, Quaternion.identity, _coinPoolParent);
             pos.x += 0.5f;
