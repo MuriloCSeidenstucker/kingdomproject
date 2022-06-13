@@ -22,4 +22,4 @@ Original game
 
 My result
 
-![Coin_System_Sample_Clone](https://user-images.githubusercontent.com/85138523/173421161-a0dc4187-6250-4c3d-861e-657730b5d515.gif)
+![Coin_System_Sample_Clone](https://user-images.githubusercontent.com/85138523/173423081-13d352fa-a38c-4d4c-bd09-1e9e78be3288.gif)
