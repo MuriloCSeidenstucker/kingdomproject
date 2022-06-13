@@ -4726,6 +4726,10 @@ PrefabInstance:
       propertyPath: _coinAmountText
       value: 
       objectReference: {fileID: 846993336}
+    - target: {fileID: 497234558062525404, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
+      propertyPath: _collectorData.ScaleSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 497234558062525407, guid: 31084e3b0535cd04e9a5d8f973a99074, type: 3}
       propertyPath: m_RootOrder
       value: 2

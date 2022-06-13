@@ -7,6 +7,7 @@ public class GameHandler : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = -1;
         _coinPool.Initialize();
     }
 

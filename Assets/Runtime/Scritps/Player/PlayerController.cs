@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour, ICoinCollector
             {
                 CoinInventory--;
                 Coin coin = _gameHandler.GetFromCoinPool(_collectorData.CoinCollector.position, Quaternion.identity);
-                coin.ApllyVelocityAfterEjection();
+                coin.ApllyVelocityAfterEjection(ejectionForce: 3.0f);
             }
         }
 
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour, ICoinCollector
         {
             _excessInventory--;
             Coin coin = _gameHandler.GetFromCoinPool(_collectorData.CoinCollector.position, Quaternion.identity);
-            coin.ApllyVelocityAfterEjection();
+            coin.ApllyVelocityAfterEjection(ejectionForce: 5.0f);
         }
     }
 
