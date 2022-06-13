@@ -8,6 +8,7 @@ public class CoinChest : MonoBehaviour
     [SerializeField] private int _coinAmount = 5;
 
     private Animator _animator;
+    private Collider2D _myCollider;
     private float _ejectionDelay = 0.3f;
     private bool _openChest;
 
@@ -16,6 +17,8 @@ public class CoinChest : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _myCollider = GetComponent<Collider2D>();
+        _myCollider.isTrigger = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
