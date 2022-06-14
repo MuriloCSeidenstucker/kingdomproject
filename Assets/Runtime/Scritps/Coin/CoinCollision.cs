@@ -72,7 +72,7 @@ public class CoinCollision : MonoBehaviour
             && !_coin.WasCollected)
         {
             _coin.WasCollected = true;
-            collector.ReactToCollisionEnter();
+            collector.ReactToCoinCollisionEnter();
         }
     }
 
@@ -81,7 +81,7 @@ public class CoinCollision : MonoBehaviour
         ICoinCollector collector = other.GetComponent<ICoinCollector>();
         if (collector != null && _coin.NaturalMovementEnded)
         {
-            ActivateCoinBehavior(collector.ReactToCollisionStay());
+            ActivateCoinBehavior(collector.ReactToCoinCollisionStay());
         }
     }
 }

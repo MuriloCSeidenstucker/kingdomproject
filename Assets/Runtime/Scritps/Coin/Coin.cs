@@ -71,10 +71,10 @@ public class Coin : MonoBehaviour, IPooledObject
         transform.localScale = Vector3.one;
     }
 
-    public void ApllyVelocityAfterEjection(in float ejectionForce)
+    public void ApllyVelocityAfterThrown(in float throwingForce)
     {
         float randomX = Random.Range(-1f, 1f);
-        Vector2 velocity = new Vector2(randomX, ejectionForce);
+        Vector2 velocity = new Vector2(randomX, throwingForce);
         _currentVelocity += velocity;
     }
 

@@ -5020,6 +5020,7 @@ GameObject:
   - component: {fileID: 347559460668202924}
   - component: {fileID: 497234558062525404}
   - component: {fileID: 1296126684}
+  - component: {fileID: 2092772188944877654}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5119,11 +5120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 301895f648485784db5211c83bd4ea1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collectorData:
-    CoinCollector: {fileID: 5633777915045002640}
-    AttractSpeed: 8
-    ScaleSpeed: 10
-    FinalScaleMultiplier: 0.5
   _coinAmountText: {fileID: 0}
 --- !u!114 &1296126684
 MonoBehaviour:
@@ -5141,6 +5137,25 @@ MonoBehaviour:
   _normalRegenSpeed: 2
   _staminaDrainValue: 5
   _breathlessPercent: 0.3
+--- !u!114 &2092772188944877654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497234558062525400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd9675aa361bd214db82682217e66284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameHandler: {fileID: 0}
+  _collectorData:
+    CoinCollector: {fileID: 5633777915045002640}
+    AttractSpeed: 8
+    ScaleSpeed: 20
+    FinalScaleMultiplier: 0.5
+  _fullInventory: 50
 --- !u!1 &497234558989819898
 GameObject:
   m_ObjectHideFlags: 0

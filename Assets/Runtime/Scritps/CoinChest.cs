@@ -38,7 +38,7 @@ public class CoinChest : MonoBehaviour
         {
             yield return new WaitForSeconds(_ejectionDelay);
             Coin coin = _gameHandler.GetFromCoinPool(_ejectionPos.position, Quaternion.identity);
-            coin.ApllyVelocityAfterEjection(ejectionForce: 5.0f);
+            coin.ApllyVelocityAfterThrown(throwingForce: 5.0f);
         }
     }
 }
