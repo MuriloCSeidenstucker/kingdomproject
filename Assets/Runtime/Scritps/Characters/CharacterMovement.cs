@@ -30,6 +30,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        MoveCharacter();
+    }
+
+    private void MoveCharacter()
+    {
         Vector2 previousPosition = _rigidbody.position;
         Vector2 currentPosition = previousPosition + _currentVelocity * Time.fixedDeltaTime;
         _rigidbody.MovePosition(currentPosition);

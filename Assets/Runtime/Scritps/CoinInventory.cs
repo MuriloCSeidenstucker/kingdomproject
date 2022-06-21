@@ -11,10 +11,23 @@ public class CoinInventory : MonoBehaviour, ICoinCollector
 
     public int FullInventory { get { return _fullInventory;  } }
     public int CoinAmount { get { return _coinAmount; } private set { _coinAmount = Mathf.Max(0, value); } }
+    public int ExcessInventory { get { return _excessInventory; } private set { _excessInventory = Mathf.Max(0, value); } }
 
     private void Update()
     {
         ThrowExcessCoin();
+    }
+
+    private void TryAddCoin(int value = 1)
+    {
+        if (CoinAmount < FullInventory)
+        {
+            CoinAmount += value;
+        }
+        else
+        {
+            ExcessInventory += value;
+        }
     }
 
     private void ThrowCoin(in float throwingForce)
@@ -25,10 +38,10 @@ public class CoinInventory : MonoBehaviour, ICoinCollector
 
     private void ThrowExcessCoin()
     {
-        if (_excessInventory < 1) return;
+        if (ExcessInventory < 1) return;
 
-        _excessInventory--;
-        ThrowCoin(5.0f);
+        ExcessInventory--;
+        ThrowCoin(throwingForce: 5.0f);
     }
 
     public void ThrowCoinFromInventory(in float throwingForce)
@@ -39,20 +52,12 @@ public class CoinInventory : MonoBehaviour, ICoinCollector
         ThrowCoin(throwingForce);
     }
 
-    public void ReactToCoinCollisionEnter()
+    public void Purchase(in int value)
     {
-        if (CoinAmount < _fullInventory)
-        {
-            CoinAmount++;
-        }
-        else
-        {
-            _excessInventory++;
-        }
+        CoinAmount -= value;
     }
 
-    public CoinCollectorData ReactToCoinCollisionStay()
-    {
-        return _collectorData;
-    }
+    public void ReactToCoinCollisionEnter() => TryAddCoin();
+
+    public CoinCollectorData ReactToCoinCollisionStay() => _collectorData;
 }
