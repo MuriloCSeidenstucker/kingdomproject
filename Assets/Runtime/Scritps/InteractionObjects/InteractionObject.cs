@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public abstract class InteractionObject : MonoBehaviour
 {
@@ -9,16 +10,25 @@ public abstract class InteractionObject : MonoBehaviour
 
     private int _amountPaid;
 
+    protected abstract bool BehaviorEnded { get; }
+
+    private void Start()
+    {
+        Vector3 newPos = _canvas.transform.position;
+        newPos.y = 0;
+        _canvas.transform.position = newPos;
+    }
+
     private void LateUpdate()
     {
         _priceText.text = $"{_amountPaid}/{_price}";
     }
 
-    public void TryStartBehavior(in CoinInventory coinInventory)
+    private void TryStartBehavior(CoinInventory coinInventory)
     {
         if (coinInventory == null) return;
 
-        if (BehaviorStarted() || coinInventory.CoinAmount < _price) return;
+        if (BehaviorEnded || coinInventory.CoinAmount < _price) return;
 
         coinInventory.Purchase(_price);
         _amountPaid = _price;
@@ -26,16 +36,16 @@ public abstract class InteractionObject : MonoBehaviour
         PerformBehavior();
     }
 
-    protected abstract bool BehaviorStarted();
-
     protected abstract void PerformBehavior();
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<PlayerController>(out var player))
         {
+            if (BehaviorEnded) return;
+
             _canvas.gameObject.SetActive(true);
-            player.GetInteractionObject(this);
+            player.TryInteract += TryStartBehavior;
         }
     }
 
@@ -44,7 +54,7 @@ public abstract class InteractionObject : MonoBehaviour
         if (other.TryGetComponent<PlayerController>(out var player))
         {
             _canvas.gameObject.SetActive(false);
-            player.GetInteractionObject(null);
+            player.TryInteract -= TryStartBehavior;
         }
     }
 }

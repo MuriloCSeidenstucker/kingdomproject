@@ -1,5 +1,7 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerController : MonoBehaviour
@@ -8,12 +10,12 @@ public class PlayerController : MonoBehaviour
     private PlayerInputActions _inputActions;
     private CoinInventory _coinInventory;
 
-    private InteractionObject _interactionObject;
-
     // TODO: Create class to handle UI.
     [SerializeField] private TextMeshProUGUI _coinAmountText;
 
     public bool IsFacingRight => _playerMovement.IsFacingRight;
+
+    public event Action<CoinInventory> TryInteract;
 
     private void Awake()
     {
@@ -41,20 +43,12 @@ public class PlayerController : MonoBehaviour
 
         if (_inputActions.PlayerControls.Interact.IsPressed())
         {
-            if (_interactionObject != null)
-            {
-                _interactionObject.TryStartBehavior(_coinInventory);
-            }
+            TryInteract?.Invoke(_coinInventory);
         }
     }
 
     private void LateUpdate()
     {
         _coinAmountText.text = $"{_coinInventory.CoinAmount}/{_coinInventory.FullInventory}";
-    }
-
-    public void GetInteractionObject(InteractionObject obj)
-    {
-        _interactionObject = obj;
     }
 }
